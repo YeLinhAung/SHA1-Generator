@@ -1,6 +1,8 @@
 package com.example.sha1generator
 
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
@@ -40,6 +42,21 @@ class MainActivity : AppCompatActivity() {
             R.id.clearMenu -> clearTexts()
         }
         return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState.putString("jsonStr", edtJsonString.text.toString())
+        outState.putString("secretStr", edtSecretKey.text.toString())
+        outState.putString("signStr", tvSign.text.toString())
+        outState.putString("signStr", tvSign.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        edtJsonString.setText(savedInstanceState.getString("jsonStr"))
+        edtSecretKey.setText(savedInstanceState.getString("secretStr"))
+        tvSign.text = savedInstanceState.getString("signStr")
     }
 
     private fun setUpUI(){
