@@ -1,6 +1,7 @@
 package com.example.sha1generator
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -106,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         try {
 
             val queryStr = if (spinnerOption.selectedItemPosition == 0){
-                getQueryString(getJsonString())
+                getQueryStr(getJsonString())
             } else{
                 getQueryString()
             }
@@ -194,7 +195,8 @@ class MainActivity : AppCompatActivity() {
         return gSon.toJson(`object`)
     }
 
-    private fun getQueryString(unParsedString: String): String{
+    private fun getQueryStr(unParsedString: String): String{
+
         val sb = StringBuilder()
         val json = JSONObject(unParsedString)
         val keys: Iterator<String> = json.keys()
@@ -206,6 +208,7 @@ class MainActivity : AppCompatActivity() {
             if (keys.hasNext()) sb.append("&")
         }
         return sb.toString()
+
     }
 
     private fun showSign(sign: String) {
