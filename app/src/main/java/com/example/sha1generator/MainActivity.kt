@@ -44,11 +44,10 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         outState.putString("jsonStr", edtJsonString.text.toString())
         outState.putString("secretStr", edtSecretKey.text.toString())
-        outState.putString("signStr", tvSign.text.toString())
         outState.putString("signStr", tvSign.text.toString())
     }
 
