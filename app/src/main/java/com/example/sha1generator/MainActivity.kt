@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         outState.putString("jsonStr", edtJsonString.text.toString())
         outState.putString("secretStr", edtSecretKey.text.toString())
         outState.putString("signStr", tvSign.text.toString())
+        outState.putBoolean("exceptNull", toggleExceptNull.isChecked)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         edtJsonString.setText(savedInstanceState.getString("jsonStr"))
         edtSecretKey.setText(savedInstanceState.getString("secretStr"))
         tvSign.text = savedInstanceState.getString("signStr")
+        toggleExceptNull.isChecked = savedInstanceState.getBoolean("exceptNull")
     }
 
     private fun setUpUI(){
@@ -93,8 +95,8 @@ class MainActivity : AppCompatActivity() {
             ) {
                 when (position){
 
-                    0 -> { edtJsonString.hint = "JSON"; edtJsonString.text.clear() }
-                    1 -> { edtJsonString.hint = "QUERY"; edtJsonString.text.clear() }
+                    0 -> { edtJsonString.hint = "JSON"}
+                    1 -> { edtJsonString.hint = "QUERY"}
 
                 }
             }
@@ -200,13 +202,24 @@ class MainActivity : AppCompatActivity() {
         val sb = StringBuilder()
         val json = JSONObject(unParsedString)
         val keys: Iterator<String> = json.keys()
+
         while (keys.hasNext()) {
             val key = keys.next()
-            sb.append(key)
-            sb.append("=")
-            sb.append(json.get(key))
-            if (keys.hasNext()) sb.append("&")
+            if (toggleExceptNull.isChecked){
+                if (json.get(key) != ""){
+                    sb.append(key)
+                    sb.append("=")
+                    sb.append(json.get(key))
+                    if (keys.hasNext()) sb.append("&")
+                }
+            } else{
+                sb.append(key)
+                sb.append("=")
+                sb.append(json.get(key))
+                if (keys.hasNext()) sb.append("&")
+            }
         }
+
         return sb.toString()
 
     }
